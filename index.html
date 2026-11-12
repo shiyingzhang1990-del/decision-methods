@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F766E">
+<title>决策方法 · EPIC 场景指引</title>
+<style>
+:root{
+  --accent:#0F766E;--accent2:#0EA5E9;
+  --grad:linear-gradient(135deg,#0F766E,#0EA5E9);
+  --ink:#134e4a;--muted:#6b7280;--line:#e5e7eb;
+  --bg:#f0fdfa;--card:#ffffff;
+  --good:#059669;--bad:#dc2626;--warn:#d97706;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 60px}
+.hero{background:var(--grad);color:#fff;border-radius:0 0 28px 28px;padding:34px 20px 30px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero .big{font-size:44px;line-height:1}
+.hero h1{font-size:27px;margin:14px 0 6px;letter-spacing:1px}
+.hero p{margin:0;opacity:.93;font-size:14px;max-width:560px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tags span{font-size:12px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.16)}
+.tabs{display:flex;gap:6px;margin:18px 0 14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px;position:sticky;top:8px;z-index:20;box-shadow:0 2px 12px rgba(15,118,110,.06)}
+.tab{flex:1;text-align:center;padding:9px 2px;border-radius:10px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:none;transition:.18s}
+.tab.on{background:var(--grad);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(15,118,110,.04)}
+.card h3{margin:0 0 10px;font-size:18px}
+.lead{font-size:15px;color:#374151}
+.muted{color:var(--muted);font-size:14px}
+.pill{display:inline-block;font-size:12px;font-weight:700;color:var(--accent);background:rgba(14,165,233,.1);padding:3px 10px;border-radius:999px;margin:0 6px 6px 0}
+/* method grid */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.mgrid{grid-template-columns:1fr}}
+.meth{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.meth .top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.meth .e{font-size:22px}
+.meth .n{font-weight:800;font-size:15px}
+.meth p{margin:4px 0;font-size:13px;color:#374151}
+.meth .when{font-size:12px;color:var(--accent);font-weight:600}
+.meth .src{font-size:11px;color:var(--muted)}
+/* scene */
+.scene{border:1.5px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden;background:#fff}
+.scene .head{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer}
+.scene .head .e{font-size:30px}
+.scene .head .t{flex:1}
+.scene .head .t b{display:block;font-size:16px}
+.scene .head .t span{font-size:13px;color:var(--muted)}
+.scene .head .arrow{color:var(--accent);transition:.25s;font-size:14px}
+.scene.open .head .arrow{transform:rotate(90deg)}
+.scene .body{display:none;padding:0 18px 18px;border-top:1px dashed var(--line)}
+.scene.open .body{display:block}
+.ep{display:grid;gap:10px;margin-top:14px}
+.ep .row{border-radius:12px;padding:12px 14px;border:1px solid var(--line)}
+.ep .row b{display:block;font-size:13px;margin-bottom:4px}
+.ep .row.e-row{background:#ecfeff;border-color:#a5f3fc}
+.ep .row.e-row b{color:#0e7490}
+.ep .row.p-row{background:#f0fdf4;border-color:#bbf7d0}
+.ep .row.p-row b{color:#15803d}
+.ep .row.i-row{background:#fffbeb;border-color:#fde68a}
+.ep .row.i-row b{color:#b45309}
+.ep .row.c-row{background:#fdf2f8;border-color:#fbcfe8}
+.ep .row.c-row b{color:#be185d}
+.ep .row p{margin:0;font-size:14px}
+.ep .row ul{margin:4px 0 0;padding-left:18px;font-size:14px}
+.ep .row li{margin:3px 0}
+/* quiz */
+.quiz{margin-top:14px;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px}
+.quiz .q{font-size:15px;font-weight:700;margin-bottom:10px}
+.quiz .q .tag{font-size:11px;color:#fff;background:var(--grad);padding:2px 8px;border-radius:6px;margin-right:8px;vertical-align:1px}
+.opt{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;cursor:pointer;font-size:14px;transition:.15s;margin-bottom:8px;text-align:left;font-family:inherit;color:var(--ink);width:100%}
+.opt .k{flex:none;width:20px;height:20px;line-height:20px;text-align:center;border-radius:6px;background:#f3f4f6;font-size:12px;font-weight:700;color:var(--muted)}
+.opt:hover{border-color:#a5f3fc}
+.opt.correct{border-color:var(--good);background:#ecfdf5}
+.opt.correct .k{background:var(--good);color:#fff}
+.opt.wrong{border-color:var(--bad);background:#fef2f2}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.fb{display:none;margin-top:10px;border-radius:11px;padding:12px;background:#f0fdf4;border:1px solid #bbf7d0;font-size:14px}
+.fb.show{display:block}
+.fb.wrong{background:#fef2f2;border-color:#fecaca}
+/* walkthrough */
+.step{border-left:3px solid var(--accent2);background:#f0fdfa;border-radius:10px;padding:12px 14px;margin:10px 0}
+.step .n{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:var(--grad);color:#fff;font-size:12px;font-weight:700;margin-right:8px}
+.step .q{font-weight:700}
+.step .a{color:#374151;font-size:14px;margin-top:6px}
+.reveal{background:var(--grad);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;margin-top:10px;font-family:inherit}
+.reveal:active{transform:scale(.97)}
+/* self test */
+.selfq{margin-bottom:16px}
+.selfq .sq{font-size:15px;font-weight:600;margin-bottom:10px}
+.opt2{display:flex;gap:10px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;cursor:pointer;font-size:14px;transition:.15s;margin-bottom:8px;text-align:left;font-family:inherit;color:var(--ink);width:100%}
+.opt2:hover{border-color:#a5f3fc}
+.opt2.on{border-color:var(--accent);background:#ecfeff}
+.opt2 .k{flex:none;width:20px;height:20px;line-height:20px;text-align:center;border-radius:6px;background:#f3f4f6;font-size:12px;font-weight:700;color:var(--muted)}
+.opt2.on .k{background:var(--accent);color:#fff}
+.submit{width:100%;background:var(--grad);color:#fff;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px}
+.submit:disabled{opacity:.5;cursor:not-allowed}
+.result{margin-top:16px;border-radius:16px;padding:20px;display:none;background:#fff;border:1px solid var(--line)}
+.result.show{display:block}
+.result .lv{font-size:40px;text-align:center}
+.result h4{text-align:center;margin:10px 0 6px;font-size:20px}
+.result .bars{margin:10px 0}
+.result .bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}
+.result .bar .nm{width:80px;text-align:right;color:var(--muted)}
+.result .bar .tr{flex:1;height:10px;background:#f1f5f9;border-radius:5px;overflow:hidden}
+.result .bar .fl{height:100%;background:var(--grad);border-radius:5px}
+.result .bar .pct{width:36px;color:var(--muted);font-size:12px}
+.result .adv{background:#f8fafc;border-radius:12px;padding:14px;font-size:14px}
+.result .adv b{display:block;margin-bottom:4px}
+.footer{text-align:center;color:#9ca3af;font-size:12px;margin-top:26px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="big">⚖️</div>
+  <h1>决策方法 · EPIC 场景指引</h1>
+  <p>生活、学习、工作、爱情……每个场景都有对应的决策方法。用 E-P-I-C 四步，把「纠结」拆成「本质—方法—推演—边界」，做出不后悔的选择。</p>
+  <div class="tags"><span>10 大场景</span><span>10 种决策方法</span><span>E-P-I-C 指引</span><span>186 篇文献</span></div>
+</div>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab on" data-m="methods">方法库</button>
+    <button class="tab" data-m="scenes">场景指引</button>
+    <button class="tab" data-m="walk">五步演练</button>
+    <button class="tab" data-m="test">决策风格</button>
+  </div>
+  <div id="main"></div>
+  <div class="footer">柚然 · 决策方法 · 源于 186 篇「决策方法」研究文献</div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+let mode='methods';
+
+const METHODS=[
+ {e:'📊',n:'多准则打分法',ess:'把模糊的「感觉」拆成维度打分',desc:'把选项拆成几个维度，分别打分加权，比较总分。TOPSIS/VIKOR/层次分析法都属此类。',when:'适合：选专业、选 offer、选供应商、选方案',src:'多属性决策·TOPSIS/VIKOR/AHP'},
+ {e:'📉',n:'前景理论·损失厌恶',ess:'人对「损失」的痛 > 「得到」的爽',desc:'人会为了不损失而过度保守或冒险，被「参照点」和「沉没成本」绑架。核心是识别自己在怕什么。',when:'适合：投资止损、砍掉沉没成本、重大抉择',src:'前景理论·20 余篇'},
+ {e:'⏳',n:'后悔最小化',ess:'选「以后最不后悔」的那个',desc:'把时间轴拉长：不选当下最爽的，选十年后回看最不后悔的。亚马逊贝索斯的「遗憾最小化框架」同源。',when:'适合：不可逆的人生大事、跳槽、分手',src:'后悔理论'},
+ {e:'🗳️',n:'群决策·共识',ess:'多人决策，关键在收敛共识',desc:'让每个人的偏好都被看见，尤其保护「少数意见」，最终收敛成可执行的共识，而不是少数服从多数。',when:'适合：开会、团队、家庭大事',src:'共识决策·30 余篇'},
+ {e:'🚨',n:'应急决策',ess:'突发状况先止损、再优化',desc:'用预设预案应对突发：先保命/止损，再优化。别在慌乱时追求最优解。',when:'适合：突发意外、危机处理、临时变故',src:'应急决策'},
+ {e:'🔗',n:'双边匹配',ess:'不是选最好，是找互相合适',desc:'很多决策是双向的——你在选，对方也在选。最优是「互相都满意」，不是单方面最优。',when:'适合：求职、恋爱、找合伙人',src:'双边匹配'},
+ {e:'📈',n:'数据驱动',ess:'先看数据，再拍板',desc:'能查的先查（市场、评价、历史），别凭直觉。数据能把「我以为」变成「事实是」。',when:'适合：商业、投资、可重复决策',src:'数据驱动决策'},
+ {e:'🧭',n:'SWOT·战略',ess:'优势/劣势/机会/威胁四象限',desc:'把内外因素摊开：我能用的优势、要补的短板、外面的机会、潜在的威胁，看清全貌再动。',when:'适合：立项、创业、职业规划',src:'SWOT 战略'},
+ {e:'🍰',n:'帕累托·共赢',ess:'不损人又利己的改进优先',desc:'优先做「对你好也对别人好」的事，追求双赢；在资源不增的前提下持续改善。',when:'适合：谈判、合作、关系处理',src:'帕累托最优'},
+ {e:'🔀',n:'三支决策',ess:'先分「接受/拒绝/待定」',desc:'别急着非黑即白：明显好的接受、明显差的拒绝、看不清的挂「待定」再观察，避免在模糊项上内耗。',when:'适合：机会筛选、日常选择',src:'三支决策'}
+];
+
+const SCENES=[
+ {e:'🏠',n:'生活',pain:'大到换城市买房，小到今天吃什么，选择太多怕选错',
+  E:'生活的决策大多是「有限资源（钱/时间/精力） vs 无限欲望」的矛盾。怕的不是选错，而是「选了 A 又惦记 B」的机会成本焦虑。',
+  P:['⏳ 后悔最小化','🍰 满足化'],
+  I:['重大决策（换城市/买房）用「后悔最小化」：问「十年后回看，我会因为没选哪个而更后悔」。','日常小事（吃什么/买什么）用「满足化」：定个最低标准，第一个达标的就选，别再比。','用「前景理论」识别：你犹豫是怕损失，还是真想要？把沉没成本删掉重想。'],
+  C:'后悔最小化适合「不可逆、影响久」的大决策；日常小事用它反而更纠结，日常就该满足化。',
+  quiz:{q:'双十一你纠结要不要买一件「打折但可能用不上」的东西。最符合底层决策逻辑的做法是？',
+   opts:['打折难得，先买再说（怕错过）','问自己「没有它，一年后我会后悔吗」，不后悔就不买','看别人都买就跟风','买两件平摊，感觉更划算'],
+   a:1,why:'识别「损失厌恶」在制造冲动，用「后悔最小化」把时间轴拉长——「错过折扣」的痛远小于「买了个闲置」的后悔。'},
+ },
+ {e:'📚',n:'学习',pain:'选专业、报课程、学什么，时间有限怕白学',
+  E:'时间是唯一不可再生资源，学习决策的本质是「时间分配 vs 长期收益」。',
+  P:['📊 多准则打分','🧭 目标导向'],
+  I:['先定目标（Essence）：你学这个是为考证、求职、兴趣还是转行？','用多准则打分：列 3~5 个维度（兴趣、回报、门槛、时间成本、可迁移性）分别打分加权。','数据驱动：查真实就业数据与评价，别只看广告。'],
+  C:'打分法适合「有明确选项」的决策；探索期（不知道要什么）时，先低成本试错比打分更重要。',
+  quiz:{q:'你纠结学 Python 还是学剪辑。最稳的做法是？',
+   opts:['哪个热门学哪个','先问「目标是什么」，再看哪个更贴近目标、更可迁移','两个都报，各学一点','抛硬币'],
+   a:1,why:'手段要服务目标（E→P）。先定「为什么学」，再按「目标匹配度 × 可迁移性」打分，而不是追逐热度。'},
+ },
+ {e:'💼',n:'工作',pain:'跳槽、接任务、职业方向，选错代价大',
+  E:'工作是「双向选择」，本质是「你能给的价值 vs 平台给的回馈」是否匹配。',
+  P:['🔗 双边匹配','🔀 三支决策'],
+  I:['三支决策：把机会分成「明显好→接 / 明显差→拒 / 看不清→再观察」，别在模糊项上纠结。','双边匹配：不只问「这公司好不好」，问「它需要的人是不是我」「我缺的是不是它能给的」。','后悔最小化：问「三年后我会不会后悔当初没试」，用于「要不要跳出舒适区」。'],
+  C:'三支决策的「待定区」要设时限，否则会变成无限拖延。',
+  quiz:{q:'收到一个 offer，薪资高但行业在走下坡。你会？',
+   opts:['钱多就行，去','用「双边匹配」评估：行业前景 × 你的成长 × 匹配度，而不只看当下薪资','直接拒绝','看同事去不去'],
+   a:1,why:'薪资只是「当前回馈」的一个维度。把时间轴拉长，看行业趋势与个人成长的匹配，避免高薪接盘夕阳行业。'},
+ },
+ {e:'🤝',n:'交际',pain:'要不要帮这个忙、参加聚会、拒绝人，怕得罪人又委屈自己',
+  E:'交际决策的本质是「关系维护 vs 自我边界」的平衡。',
+  P:['🍰 帕累托共赢','🔀 三支决策'],
+  I:['帕累托思维：优先做「对你好也对别人好」的双赢之事。','拒绝时用三支决策：能帮的帮、不能帮的明确拒、可帮可不帮的设边界条件。','群决策视角：聚会/人情里你的「去或不去」会影响群体，想清自己是不是关键一环。'],
+  C:'共赢思维要防被「情绪勒索」滥用——真共赢是双方都舒服，不是单方面牺牲。',
+  quiz:{q:'朋友半夜借钱周转，你最近也不宽裕。最健康的选择？',
+   opts:['咬牙借，怕伤感情','明确边界：能借多少借多少、说清还款时间，或坦诚拒绝','装没看见','借并劝对方多借点'],
+   a:1,why:'健康的边界是「共赢」的前提——不让自己委屈，也不让对方误会。明确条件比含糊答应更保护关系。'},
+ },
+ {e:'🎮',n:'娱乐',pain:'刷视频、打游戏、旅行，时间溜走了又后悔',
+  E:'娱乐决策的本质是「即时快感 vs 长期后悔」的张力，核心是机会成本。',
+  P:['🍰 满足化','🚨 应急决策'],
+  I:['满足化：选第一个「看着还行」的，别在片单/游戏库里反复翻——选择过载本身就在偷时间。','应急决策思维：娱乐前设「止损线」（只刷 20 分钟），到点就停，像应急预案一样预设动作。','后悔最小化：用「明早会不会后悔」给熬夜娱乐踩刹车。'],
+  C:'满足化针对「低风险高频」的娱乐；真正重要的一次性体验（旅行、演唱会）值得做点攻略，别过度满足化。',
+  quiz:{q:'晚上想「刷 10 分钟视频」，两小时后还在刷。根子上怎么破？',
+   opts:['怪自己没自制力','预设止损线 + 物理隔离（闹钟/卸载/放远），像应急决策一样预设动作','干脆刷个够，明天再改','换一个 App'],
+   a:1,why:'靠意志力对抗算法设计注定失败。用「应急决策」思路：提前设好止损动作，到点自动触发，而不是临场硬扛。'},
+ },
+ {e:'💰',n:'商业',pain:'投资、定价、选供应商、要不要上新品，风险大',
+  E:'商业决策的本质是「风险 vs 收益」在不确定下的权衡。',
+  P:['📈 数据驱动','📉 前景理论'],
+  I:['数据驱动：能查的先查（市场、竞品、财务），别凭感觉拍板。','前景理论：识别参照点——你相对「现在的成本」还是「未来的预期」决策？止损时别被沉没成本绑架。','多准则打分：供应商/方案用加权打分，避免单一指标（只看价格）翻车。'],
+  C:'数据驱动适合「可重复、有历史数据」的场景；全新赛道没数据时，要回到愿景和试错。',
+  quiz:{q:'一个项目已投入 100 万，继续投还能救，但前景不明。理性决策该看？',
+   opts:['已投的 100 万不能白投，继续','忘掉沉没成本，只看「未来再投入 vs 未来预期回报」','别人怎么看','面子'],
+   a:1,why:'沉没成本已经沉没了，不该影响下一步。决策只应看「未来」的增量收益与风险，这是前景理论的核心。'},
+ },
+ {e:'🗣️',n:'会议',pain:'会越开越长，议而不决，少数人被无视',
+  E:'会议决策的本质是「多人偏好 → 一个可执行共识」。',
+  P:['🗳️ 群决策共识','🔀 三支决策'],
+  I:['共识流程：先列选项 → 各抒己见 → 识别分歧点 → 收敛共识，别一上来就投票。','保护少数意见：少数意见可能是关键的备选，别让嗓门大的压过正确的。','三支决策：议题分成「已共识→执行 / 有分歧→再议 / 信息不足→补数据」，避免无效争论。'],
+  C:'共识决策适合「需要大家执行」的决策；危机时刻需要「应急决策」，一人拍板比追求共识更对。',
+  quiz:{q:'会上 8 个人 7 个同意方案 A，只有 1 个强烈反对。最该做的是？',
+   opts:['少数服从多数，直接过','花几分钟听反对者的具体理由，看是不是「关键少数意见」','投票再说','私下劝反对者闭嘴'],
+   a:1,why:'高质量共识要「保护少数意见」——那个反对者可能看到了多数人忽略的致命缺陷，或握有关键信息。'},
+ },
+ {e:'📋',n:'项目',pain:'立项、排期、功能取舍，资源永远不够',
+  E:'项目决策的本质是「有限资源 vs 无限需求」的取舍。',
+  P:['🧭 SWOT','🍰 帕累托','🧭 目标导向'],
+  I:['目标导向：先定「这个项目要赢什么」（Essence），再倒推该做什么、不做什么。','SWOT：立项前把优势/劣势/机会/威胁摊开，别只盯着机会。','帕累托：优先做「投入少、收益大」的改进，砍掉高成本低价值的。'],
+  C:'SWOT 容易流于形式，要有数据支撑；帕累托在项目里指「资源不增的前提下持续改善」。',
+  quiz:{q:'项目时间紧，你手上 5 个功能只能做 3 个。怎么选？',
+   opts:['挑最简单的做，显得快','回到「项目要赢什么」，按目标 × 投入产出比排序，砍掉低价值项','全做，加班','让老板选'],
+   a:1,why:'用目标导向（E）先定方向，再按「价值/成本」做帕累托排序，砍掉低价值项——而不是平均用力或简单堆量。'},
+ },
+ {e:'💕',n:'爱情',pain:'该不该继续、要不要表白、选谁，感性又怕选错',
+  E:'爱情决策的本质是「双向奔赴」，不是你单方面「选最优」。',
+  P:['🔗 双边匹配','⏳ 后悔最小化'],
+  I:['双边匹配：别只问「我喜不喜欢 TA」，也问「TA 是不是也这样看我」「我们的需求是否互补」。','后悔最小化：纠结「要不要继续」时，问「一年后分手/错过，我最后悔的是什么」，答案往往浮现。','前景理论：识别「舍不得放手」到底是不舍那个人，还是怕「损失」（沉没成本、习惯）。'],
+  C:'爱情不能全用理性打分（打分会把感情算没了）；理性用于「止损/重大抉择」，日常相处靠感受。',
+  quiz:{q:'你明知道这段关系不合适，但舍不得多年的付出。理性看？',
+   opts:['付出这么多，不能白费，继续','分清「是爱这个人，还是怕损失（沉没成本）」，该止损就止损','再坚持一年看看','问朋友'],
+   a:1,why:'「舍不得付出」是沉没成本，不是爱。用前景理论识破它：继续耗下去的损失，往往比及时止损更大。'},
+ },
+ {e:'👥',n:'关系',pain:'亲情/友情/同事，冲突时怎么沟通、期望总落空',
+  E:'关系决策的本质是「期望 vs 现实」的心理落差（文献[25]心理落差测度）。',
+  P:['🗳️ 共识决策','🍰 期望管理'],
+  I:['期望管理：多数矛盾不是「谁错了」，是「双方期望不一致」，先把各自的期望摊开说清。','共识决策：别争对错，找「双方都能接受的第三方案」（不损人又改善）。','心理落差测度：冲突时量化「我期待什么 / 现实是什么 / 落差在哪」，比情绪对喷有效。'],
+  C:'期望管理适合「长期关系」；对陌生人/一次性交往，边界清晰比反复沟通更省。',
+  quiz:{q:'你和伴侣常因「对方没做家务」吵架。底层解法是？',
+   opts:['谁错了谁改','先对齐「各自对家务的期望」，再找一个双方都接受的分配方案','请钟点工','忍着不说'],
+   a:1,why:'争吵的根源是「期望不一致」，不是「谁对谁错」。先对齐期望（E），再共识出一个双方接受的方案（P）。'},
+ }
+];
+
+const WALK=[
+ {t:'定本质（E）',d:'先问：这是个什么性质的决策？核心矛盾是什么？可逆吗？影响多久？'},
+ {t:'列选项（P）',d:'把所有可能摊开，别只盯着眼前两个；为每个选项匹配适用的决策方法。'},
+ {t:'定标准',d:'用几个维度衡量（多准则）；分清「必须满足」和「尽量满足」。'},
+ {t:'权衡推演（I）',d:'用数据 / 后悔最小化 / 前景理论评估每个选项，做反事实推演：最坏情况能接受吗？'},
+ {t:'拍板 + 设边界（C）',d:'做决定，并明确「什么情况下要回头修正」，别把一次决定当成永远。'}
+];
+const WALK_DEMO=[
+ {s:'定本质',q:'要不要换工作？本质是……',a:'一个「可逆但影响较大」的职业选择，核心矛盾是「稳定 vs 成长」的张力。'},
+ {s:'列选项',q:'不只「留 or 走」，摊开看……',a:'A 留下（可能继续涨）、B 跳槽涨薪、C 内部转岗、D 边留边看外部机会。'},
+ {s:'定标准',q:'用什么维度衡量？',a:'薪资、成长空间、行业前景、通勤/家庭、稳定性——并标出「必须满足」（如家庭照顾）与「尽量满足」（如薪资）。'},
+ {s:'权衡推演',q:'用方法评估……',a:'对每个选项打分（多准则）；用「后悔最小化」问「三年后哪个会后悔没选」；用「双边匹配」看新平台是否真需要你。'},
+ {s:'拍板设界',q:'结论与边界……',a:'选 C 内部转岗，并设「半年内若无实质成长，就启动 B 跳槽」的修正触发条件。'}
+];
+
+const STYLES=[
+ {k:'data',e:'🎯',n:'数据驱动型',adv:'优势：重证据、爱比较、慢但稳。',blind:'盲点：信息没攒够就不敢动，容易错过窗口期。',tip:'给「信息收集」设个截止时间，60 分的信息 + 快速行动，常常胜过 90 分信息 + 慢半拍。'},
+ {k:'gut',e:'⚡',n:'直觉行动型',adv:'优势：凭感觉、决策快、敢试错。',blind:'盲点：容易被直觉和情绪带偏，忽视数据与风险。',tip:'重大不可逆的决策，用「数据驱动」给直觉做一次交叉验证，尤其查一查损失的下限。'},
+ {k:'risk',e:'🛡️',n:'风险规避型',adv:'优势：谨慎、考虑周全、不易翻大车。',blind:'盲点：怕损失，易陷入犹豫与「错过」的后悔。',tip:'用「后悔最小化」拉长时间轴——很多你怕的「损失」几年后看根本不算事，反而「没试」才最遗憾。'},
+ {k:'cons',e:'🕊️',n:'共识协商型',adv:'优势：重关系、会倾听、团队黏合度高。',blind:'盲点：太想照顾所有人，容易被带偏、难拍板。',tip:'记住「保护少数意见」不等于「取悦所有人」；关键决策要敢于亮出自己的判断，再收敛共识。'}
+];
+
+const STEST=[
+ {q:'选餐厅吃饭，你通常？',opts:[['先看评分和评价数据','data'],['凭感觉，哪家顺眼去哪家','gut'],['选常去的那家，怕新店踩雷','risk'],['问大家想吃什么','cons']]},
+ {q:'重要决定前，你的习惯是？',opts:[['搜集数据、列对比表','data'],['相信第一直觉','gut'],['反复想最坏情况，犹豫不决','risk'],['找朋友家人一起商量','cons']]},
+ {q:'面对「打折但用不上」的东西？',opts:[['查它实际使用频率再决定','data'],['喜欢就买','gut'],['买了怕后悔、不买怕错过','risk'],['看大家买不买','cons']]},
+ {q:'项目时间紧、需求多，你会？',opts:[['用投入产出比排序砍需求','data'],['先干起来再说','gut'],['怕砍错，全都做','risk'],['开会让大家定','cons']]},
+ {q:'和人有分歧时，你会？',opts:[['摆事实、讲数据','data'],['坚持自己的感受','gut'],['怕伤感情，主动让步','risk'],['找双方都能接受的方案','cons']]},
+ {q:'拿到一个新机会，第一反应是？',opts:[['先调研它的前景','data'],['兴奋，想马上试','gut'],['怕跳坑，再等等','risk'],['先问问身边人的意见','cons']]},
+ {q:'你平时做决定的速度？',opts:[['收集够信息再定','data'],['很快，跟着感觉','gut'],['很慢，反复权衡','risk'],['等大家意见统一','cons']]},
+ {q:'事后你最后悔的通常是？',opts:[['数据没查够','data'],['没跟着直觉走','gut'],['当初太怕风险、错过了','risk'],['没和大家商量','cons']]}
+];
+
+function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild}
+$$('.tab').forEach(t=>t.addEventListener('click',()=>{$$('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');mode=t.dataset.m;render();window.scrollTo({top:0});}));
+function render(){$('#main').innerHTML='';
+ if(mode==='methods')renderMethods();
+ if(mode==='scenes')renderScenes();
+ if(mode==='walk')renderWalk();
+ if(mode==='test')renderTest();}
+
+function renderMethods(){
+ const m=$('#main');
+ m.appendChild(el(`<div class="card"><h3>10 种决策方法，一张图看懂</h3>
+  <p class="muted">从 186 篇「决策方法」论文里提炼出的 10 个底层方法，先认识它们，再去看「场景指引」怎么用。</p></div>`));
+ const g=el(`<div class="mgrid"></div>`);
+ METHODS.forEach(x=>g.appendChild(el(`<div class="meth"><div class="top"><span class="e">${x.e}</span><span class="n">${x.n}</span></div>
+  <p><b>${x.ess}</b></p><p>${x.desc}</p>
+  <div class="when">${x.when}</div><div class="src">📚 ${x.src}</div></div>`)));
+ m.appendChild(g);
+}
+
+function renderScenes(){
+ const m=$('#main');
+ m.appendChild(el(`<div class="card"><h3>十大场景 · EPIC 决策指引</h3>
+  <p class="muted">点开任意场景，看它的 <b>E</b>（本质矛盾）、<b>P</b>（推荐方法）、<b>I</b>（具体做法）、<b>C</b>（边界警示），再答一道实战题。</p></div>`));
+ SCENES.forEach((s,i)=>{
+  const scene=el(`<div class="scene" data-i="${i}"><div class="head">
+   <span class="e">${s.e}</span><div class="t"><b>${s.n}</b><span>${s.pain}</span></div>
+   <span class="arrow">▶</span></div>
+   <div class="body">
+    <div class="ep">
+     <div class="row e-row"><b>E · 本质洞察</b><p>${s.E}</p></div>
+     <div class="row p-row"><b>P · 模式提炼（推荐方法）</b><p>${s.P.join(' ＋ ')}</p></div>
+     <div class="row i-row"><b>I · 意涵衍生（具体怎么做）</b><ul>${s.I.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+     <div class="row c-row"><b>C · 语境重构（边界警示）</b><p>${s.C}</p></div>
+    </div>
+    <div class="quiz" data-q="${i}"></div>
+   </div></div>`);
+  scene.querySelector('.head').addEventListener('click',()=>{scene.classList.toggle('open');if(scene.classList.contains('open')&&!scene.querySelector('.quiz').dataset.built){buildQuiz(scene.querySelector('.quiz'),s.quiz,i);}});
+  m.appendChild(scene);
+ });
+}
+function buildQuiz(box,q,idx){
+ box.dataset.built='1';
+ box.appendChild(el(`<div class="q"><span class="tag">实战</span>${q.q}</div>`));
+ q.opts.forEach((o,i)=>{const b=el(`<button class="opt" data-i="${i}"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`);
+  b.addEventListener('click',()=>{const oo=box.querySelectorAll('.opt');oo.forEach(x=>x.style.pointerEvents='none');
+   let fb=box.querySelector('.fb');if(!fb){fb=el(`<div class="fb"></div>`);box.appendChild(fb);}
+   if(i===q.a){b.classList.add('correct');fb.classList.remove('wrong');fb.classList.add('show');fb.innerHTML=`<b>✅ 正解</b>：${q.why}`;}
+   else{b.classList.add('wrong');oo[q.a].classList.add('correct');fb.classList.add('wrong','show');fb.innerHTML=`<b>❌ 再想想</b>：正确是 <b>${'ABCD'[q.a]}</b>。${q.why}`;}
+  });
+  box.appendChild(b);});
+}
+
+function renderWalk(){
+ const m=$('#main');
+ m.appendChild(el(`<div class="card"><h3>决策五步法 · 通用流程</h3>
+  <p class="muted">任何纠结，都能套进这五步。E-P-I-C 藏在其中：定本质是 E，列选项/定标准是 P，权衡推演是 I，拍板设界是 C。</p>
+  ${WALK.map((s,i)=>`<div class="step"><span class="n">${i+1}</span><span class="q">${s.t}</span><div class="a">${s.d}</div></div>`).join('')}
+ </div>`));
+ const box=el(`<div class="card"><h3>实战演示 · 「要不要换工作」</h3><p class="muted">点开每一步，看五步法怎么走通一个真实决策。</p><div id="demo"></div></div>`);
+ m.appendChild(box);
+ const demo=$('#demo');
+ WALK_DEMO.forEach((s,i)=>{const d=el(`<div class="step"><span class="n">${i+1}</span><span class="q">${s.s}</span>
+   <div class="a"><span class="muted">${s.q}</span></div><button class="reveal">揭示</button></div>`);
+  d.querySelector('.reveal').addEventListener('click',()=>{d.querySelector('.a').textContent=s.a;d.querySelector('.reveal').remove();});
+  demo.appendChild(d);});
+}
+
+let answers={};
+function renderTest(){
+ const n=STEST.length;answers={};
+ const m=$('#main');
+ m.appendChild(el(`<div class="card"><h3>你的决策风格是什么？</h3>
+  <p class="muted">8 道题，选最像你的那个。结果会告诉你：你的优势、盲点，和一条改进行动。</p></div>`));
+ const box=el(`<div class="card"></div>`);m.appendChild(box);
+ STEST.forEach((q,qi)=>{const d=el(`<div class="selfq"><div class="sq">${qi+1}. ${q.q}</div></div>`);
+  q.opts.forEach((o,i)=>{const b=el(`<button class="opt2" data-k="${o[1]}"><span class="k">${'ABCD'[i]}</span><span>${o[0]}</span></button>`);
+   b.addEventListener('click',()=>{d.querySelectorAll('.opt2').forEach(x=>x.classList.remove('on'));b.classList.add('on');answers[qi]=o[1];
+    $('#sub').disabled=Object.keys(answers).length<n;});d.appendChild(b);});
+  box.appendChild(d);});
+ const sub=el(`<button class="submit" id="sub" disabled>提交，看我的决策风格</button>`);box.appendChild(sub);
+ const res=el(`<div class="result" id="res"></div>`);box.appendChild(res);
+ sub.addEventListener('click',()=>{
+  const tally={data:0,gut:0,risk:0,cons:0};Object.values(answers).forEach(k=>tally[k]++);
+  const total=STEST.length;const top=STYLES.slice().sort((a,b)=>tally[b.k]-tally[a.k])[0];
+  const topStyle=STYLES.find(s=>s.k===top.k);
+  $('#res').classList.add('show');
+  $('#res').innerHTML=`<div class="lv">${topStyle.e}</div><h4>${topStyle.n}</h4>
+   <div class="bars">${STYLES.map(s=>`<div class="bar"><span class="nm">${s.e} ${s.n}</span><div class="tr"><div class="fl" style="width:${Math.round(tally[s.k]/total*100)}%"></div></div><span class="pct">${Math.round(tally[s.k]/total*100)}%</span></div>`).join('')}</div>
+   <div class="adv"><b>${topStyle.adv} ${topStyle.blind}</b>${topStyle.tip}</div>
+   <button class="reveal" style="margin-top:12px" onclick="renderTest()">重新测一次</button>`;
+  $('#res').scrollIntoView({behavior:'smooth'});
+ });
+}
+render();
+</script>
+</body>
+</html>
